@@ -38,8 +38,13 @@ def predict_page():
 def predict():
     data = request.json
     id_cliente = data.get('ID_CLIENT')
+    # Convertir id_cliente a número
+    try:
+        id_cliente = int(id_cliente)
+    except (ValueError, TypeError):
+        return jsonify({'Error': 'ID_CLIENT debe ser un número entero válido'}), 400
     print('data frame', df)
-    cliente_data = df[df['ID_CLIENT'] == 5001]
+    cliente_data = df[df['ID_CLIENT'] == id_cliente]
     print('cliente_data', cliente_data)
     if not cliente_data.empty:
         data = cliente_data[[
