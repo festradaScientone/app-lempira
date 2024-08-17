@@ -39,7 +39,7 @@ def predict():
     data = request.json
     id_cliente = data.get('ID_CLIENT')
     print('data frame', df)
-    cliente_data = df[df['ID_CLIENT'] == '5001']
+    cliente_data = df[df['ID_CLIENT'] == 5001]
     print('cliente_data', cliente_data)
     if not cliente_data.empty:
         data = cliente_data[[
