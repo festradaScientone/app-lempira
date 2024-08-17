@@ -30,5 +30,9 @@ def predict():
     else:
         return jsonify({'Error': 'ID_CLIENT no encontrado'}), 404
 
+@app.route('/status', methods=['GET'])
+def status():
+    return jsonify({'status': 'Server is running'})
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
