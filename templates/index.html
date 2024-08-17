@@ -3,246 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Prediction Dashboard</title>
+    <title>Administración - Predicción de Clientes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
-            background-color: #f0f2f5;
+            padding: 20px;
         }
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
             padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .nav {
-            display: flex;
-            background-color: #fff;
+        .header {
+            margin-bottom: 20px;
             padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .nav-item {
-            display: flex;
-            align-items: center;
-            margin-right: 20px;
-            color: #666;
-            font-weight: bold;
-        }
-        .nav-item.active {
-            color: #007bff;
-        }
-        .nav-icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 8px;
-            background-color: #e0e0e0;
-            border-radius: 50%;
-        }
-        .setup-bar {
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .setup-progress {
-            display: flex;
-            align-items: center;
-        }
-        .setup-text {
-            margin-right: 10px;
-        }
-        .setup-percentage {
-            color: #ff6b00;
-            font-weight: bold;
-        }
-        .setup-next {
-            color: #007bff;
-            text-decoration: none;
-        }
-        .dashboard {
-            display: flex;
-            gap: 20px;
-        }
-        .alerts, .control, .prediction {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .alerts {
-            flex: 2;
-        }
-        .control {
-            flex: 1;
-        }
-        .prediction {
-            flex: 2;
-        }
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .view-all {
-            color: #007bff;
-            text-decoration: none;
-            font-size: 0.9em;
-        }
-        .flagged-items {
-            background-color: #fff5f5;
-            border: 1px solid #ffcccb;
-            border-radius: 4px;
-            padding: 15px;
+            background-color: #007bff;
+            color: #fff;
             text-align: center;
+            border-radius: 4px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
             margin-bottom: 20px;
         }
-        .flagged-count {
-            font-size: 2em;
-            font-weight: bold;
-            color: #ff4500;
+        input[type="text"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
         }
-        .review-button {
-            background-color: #ff4500;
-            color: white;
+        input[type="submit"] {
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
             border: none;
-            padding: 5px 10px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.9em;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            text-align: left;
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            color: #666;
-        }
-        .unavailable-message {
-            background-color: #ffe6e6;
-            color: #d8000c;
-            padding: 20px;
-            border-radius: 4px;
-            text-align: center;
+            font-size: 16px;
         }
         .result {
-            margin-top: 20px;
             padding: 10px;
-            background-color: #e9ecef;
             border-radius: 4px;
             text-align: center;
+            margin-top: 20px;
         }
-        .result.good {
-            background-color: #d4edda;
-            color: #155724;
+        .result-header {
+            font-weight: bold;
+            margin-bottom: 10px;
         }
         .result.bad {
             background-color: #f8d7da;
             color: #721c24;
         }
+        .result.good {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .icon {
+            margin-right: 8px;
+        }
+        .profile-image {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <nav class="nav">
-            <div class="nav-item active"><div class="nav-icon"></div>OVERVIEW</div>
-            <div class="nav-item"><div class="nav-icon"></div>ALERTS</div>
-            <div class="nav-item"><div class="nav-icon"></div>CREDIT</div>
-            <div class="nav-item"><div class="nav-icon"></div>CYBER</div>
-            <div class="nav-item"><div class="nav-icon"></div>FINANCIAL</div>
-            <div class="nav-item"><div class="nav-icon"></div>SUPPORT & RESOLUTION</div>
-        </nav>
-        
-        <div class="setup-bar">
-            <div class="setup-progress">
-                <span class="setup-text">Account setup:</span>
-                <span class="setup-percentage">17%</span>
-                <span> → </span>
-                <a href="#" class="setup-next">Next Step: Please give us a call - we need more info</a>
-            </div>
+        <div class="header">
+            <h1>Administración - Predicción de Clientes</h1>
         </div>
-        
-        <div class="dashboard">
-            <div class="alerts">
-                <div class="section-header">
-                    <h2>ALERTS</h2>
-                    <a href="#" class="view-all">VIEW ALL ALERTS</a>
-                </div>
-                <div class="flagged-items">
-                    <div class="flagged-count">0</div>
-                    <div>FLAGGED ITEMS</div>
-                    <button class="review-button">REVIEW FLAGGED</button>
-                </div>
-                <table>
-                    <tr>
-                        <th>TYPE</th>
-                        <th>LATEST</th>
-                        <th>DESCRIPTION</th>
-                    </tr>
-                    <tr>
-                        <td>Credit</td>
-                        <td>0</td>
-                        <td>No Unreviewed Alerts</td>
-                    </tr>
-                    <tr>
-                        <td>Identity</td>
-                        <td>0</td>
-                        <td>No Unreviewed Alerts</td>
-                    </tr>
-                    <tr>
-                        <td>Financial</td>
-                        <td>0</td>
-                        <td>No Unreviewed Alerts</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="control">
-                <h2>CONTROL</h2>
-                <div class="unavailable-message">
-                    <h3>Temporarily unavailable</h3>
-                    <p>We're sorry for the inconvenience.</p>
-                    <p>Please give us a call or try again later.</p>
-                </div>
-            </div>
-            <div class="prediction">
-                <h2>PREDICTION RESULTS</h2>
-                <div id="result" class="result"></div>
-            </div>
-        </div>
+        <form id="predict-form">
+            <label for="id_cliente">ID Cliente:</label>
+            <input type="text" id="id_cliente" name="id_cliente" required>
+            <input type="submit" value="Obtener Predicción">
+        </form>
+        <div id="result" class="result"></div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Simulate fetching data
-            const data = {
-                Prediction: 'GOOD', // Replace with actual data
-                Probability: '0.85', // Replace with actual data
-                Probability_BAD: '0.15', // Replace with actual data
-                Probability_GOOD: '0.85' // Replace with actual data
-            };
-
+        document.getElementById('predict-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const idCliente = document.getElementById('id_cliente').value;
             const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = `
-                <p>Predicción: ${data.Prediction}</p>
-                <p>Probabilidad: ${data.Probability}</p>
-                <p>Probabilidad BAD: ${data.Probability_BAD}</p>
-                <p>Probabilidad GOOD: ${data.Probability_GOOD}</p>
-            `;
-            // Apply styling based on prediction
-            if (data.Prediction === 'GOOD') {
-                resultDiv.classList.add('good');
-                resultDiv.classList.remove('bad');
-            } else if (data.Prediction === 'BAD') {
-                resultDiv.classList.add('bad');
-                resultDiv.classList.remove('good');
+
+            // Generar una imagen de perfil aleatoria
+            const profileImageUrl = `https://randomuser.me/api/portraits/men/${Math.floor(Math.random() * 99) + 1}.jpg`;
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ ID_CLIENT: idCliente }),
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    // Clear previous result styles
+                    resultDiv.classList.remove('bad', 'good');
+                    
+                    // Set new result content and styles
+                    resultDiv.innerHTML = `
+                        <img src="${profileImageUrl}" alt="Profile Image" class="profile-image">
+                        <div class="result-header">
+                            ${data.Prediction === 'BAD' ? '<i class="fas fa-exclamation-circle icon"></i>Predicción NEGATIVA' : '<i class="fas fa-check-circle icon"></i>Predicción POSITIVA'}
+                        </div>
+                        <p>Probabilidad: ${data.Probability}</p>
+                        <p>Probabilidad BAD: ${data.Probability_BAD}</p>
+                        <p>Probabilidad GOOD: ${data.Probability_GOOD}</p>
+                    `;
+                    if (data.Prediction === 'BAD') {
+                        resultDiv.classList.add('bad');
+                    } else if (data.Prediction === 'GOOD') {
+                        resultDiv.classList.add('good');
+                    }
+                } else {
+                    resultDiv.classList.remove('bad', 'good');
+                    resultDiv.textContent = `Error: ${data.Error}`;
+                }
+            } catch (error) {
+                resultDiv.classList.remove('bad', 'good');
+                resultDiv.textContent = `Error: ${error.message}`;
             }
         });
     </script>
