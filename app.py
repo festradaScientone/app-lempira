@@ -30,6 +30,10 @@ df = pd.read_excel(excel_path)
 def index():
     return render_template('index.html')
 
+@app.route('/predict')
+def predict_page():
+    return render_template('predict.html')
+
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.json
