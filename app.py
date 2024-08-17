@@ -9,7 +9,7 @@ app = Flask(__name__)
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Construct the full path to the PMML file
-pmml_path = os.path.join(current_dir, 'model_lempira2.pmml')
+pmml_path = "/home/ec2-user/app-lempira/model_lempira2.pmml"
 
 # Load the model with error handling
 try:
@@ -21,7 +21,7 @@ except Exception as e:
     # sys.exit(1)
 
 # Construct the full path to the Excel file
-excel_path = os.path.join(current_dir, 'BDBank.xlsx')
+excel_path = "/home/ec2-user/app-lempira/BDBank.xlsx"
 
 # Load the Excel file
 df = pd.read_excel(excel_path)
