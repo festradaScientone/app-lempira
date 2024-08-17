@@ -5,10 +5,10 @@ from pypmml import Model
 app = Flask(__name__)
 
 # Cargar el modelo PMML
-modelo_lempira = Model.load('/path/to/model_lempira2.pmml')
+modelo_lempira = Model.load('/model_lempira2.pmml')
 
 # Cargar el archivo Excel
-df = pd.read_excel('/path/to/BDBank.xlsx')
+df = pd.read_excel('/BDBank.xlsx')
 
 @app.route('/predict', methods=['POST'])
 def predict():
