@@ -57,7 +57,10 @@ def predict():
         ]]
         prediccion = modelo_lempira.predict(data)
         valor_prediccion = prediccion['predicted_TARGET_LABEL_BAD=1'].iloc[0]
-        return jsonify({'Prediction': valor_prediccion})
+        probability = prediccion['probability'].iloc[0]
+        probability_BAD = prediccion['probability_BAD'].iloc[0]
+        probability_GOOD = prediccion['probability_GOOD'].iloc[0]
+        return jsonify({'Prediction': valor_prediccion, 'probability':probability, 'probability_BAD':probability_BAD, 'probability_GOOD': probability_GOOD})
     else:
         return jsonify({'Error': 'ID_CLIENT no encontrado'}), 404
 

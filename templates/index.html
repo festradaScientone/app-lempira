@@ -48,11 +48,21 @@
             border-radius: 4px;
             text-align: center;
         }
+        .header {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Predicción de Clientes</h1>
+        <div class="header">
+            <h1>Predicción de Clientes</h1>
+        </div>
         <form id="predict-form">
             <label for="id_cliente">ID Cliente:</label>
             <input type="text" id="id_cliente" name="id_cliente" required>
@@ -76,7 +86,12 @@
                 });
                 const data = await response.json();
                 if (response.ok) {
-                    resultDiv.textContent = `Predicción: ${data.Prediction}`;
+                    resultDiv.innerHTML = `
+                        <p>Predicción: ${data.Prediction}</p>
+                        <p>Probabilidad: ${data.Probability}</p>
+                        <p>Probabilidad BAD: ${data.Probability_BAD}</p>
+                        <p>Probabilidad GOOD: ${data.Probability_GOOD}</p>
+                    `;
                 } else {
                     resultDiv.textContent = `Error: ${data.Error}`;
                 }
