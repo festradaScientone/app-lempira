@@ -38,8 +38,9 @@ def predict_page():
 def predict():
     data = request.json
     id_cliente = data.get('ID_CLIENT')
-    print('id_cliente', id_cliente)
+    print('data frame', df)
     cliente_data = df[df['ID_CLIENT'] == id_cliente]
+    print('cliente_data', cliente_data)
     if not cliente_data.empty:
         data = cliente_data[[
             'AGE', 'AREA_CODE_RESIDENCIAL_PHONE', 'PAYMENT_DAY',
