@@ -5,10 +5,29 @@ import os
 
 app = Flask(__name__)
 
-# ... (keep your existing code for loading the model and Excel file)
+# Get the directory of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-@app.route('/', methods=['GET'])
-def home():
+# Construct the full path to the PMML file
+pmml_path = os.path.join(current_dir, 'model_lempira2.pmml')
+
+# Load the model with error handling
+try:
+    modelo_lempira = Model.load(pmml_path)
+except Exception as e:
+    print(f"Error loading PMML model: {str(e)}")
+    # You might want to exit the script here if the model can't be loaded
+    # import sys
+    # sys.exit(1)
+
+# Construct the full path to the Excel file
+excel_path = os.path.join(current_dir, 'BDBank.xlsx')
+
+# Load the Excel file
+df = pd.read_excel(excel_path)
+
+@app.route('/')
+def index():
     return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
@@ -27,7 +46,7 @@ def predict():
         ]]
         prediccion = modelo_lempira.predict(data)
         valor_prediccion = prediccion['predicted_TARGET_LABEL_BAD=1'].iloc[0]
-        return jsonify({'Prediction': float(valor_prediccion)})
+        return jsonify({'Prediction': valor_prediccion})
     else:
         return jsonify({'Error': 'ID_CLIENT no encontrado'}), 404
 
@@ -36,4 +55,4 @@ def status():
     return jsonify({'status': 'Server is running'})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
