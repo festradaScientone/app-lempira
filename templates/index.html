@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predicción</title>
+    <title>Administración - Predicción de Clientes</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,19 +12,25 @@
             padding: 20px;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: auto;
             background: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        h1 {
+        .header {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
             text-align: center;
+            border-radius: 4px;
         }
         form {
             display: flex;
             flex-direction: column;
+            margin-bottom: 20px;
         }
         input[type="text"] {
             padding: 10px;
@@ -42,26 +48,24 @@
             font-size: 16px;
         }
         .result {
-            margin-top: 20px;
             padding: 10px;
-            background-color: #e9ecef;
             border-radius: 4px;
             text-align: center;
         }
-        .header {
-            margin-bottom: 20px;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            text-align: center;
-            border-radius: 4px;
+        .result.bad {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .result.good {
+            background-color: #d4edda;
+            color: #155724;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Predicción de Clientes</h1>
+            <h1>Administración - Predicción de Clientes</h1>
         </div>
         <form id="predict-form">
             <label for="id_cliente">ID Cliente:</label>
@@ -86,16 +90,27 @@
                 });
                 const data = await response.json();
                 if (response.ok) {
+                    // Clear previous result styles
+                    resultDiv.classList.remove('bad', 'good');
+                    
+                    // Set new result content and styles
                     resultDiv.innerHTML = `
                         <p>Predicción: ${data.Prediction}</p>
                         <p>Probabilidad: ${data.Probability}</p>
                         <p>Probabilidad BAD: ${data.Probability_BAD}</p>
                         <p>Probabilidad GOOD: ${data.Probability_GOOD}</p>
                     `;
+                    if (data.Prediction === 'BAD') {
+                        resultDiv.classList.add('bad');
+                    } else if (data.Prediction === 'GOOD') {
+                        resultDiv.classList.add('good');
+                    }
                 } else {
+                    resultDiv.classList.remove('bad', 'good');
                     resultDiv.textContent = `Error: ${data.Error}`;
                 }
             } catch (error) {
+                resultDiv.classList.remove('bad', 'good');
                 resultDiv.textContent = `Error: ${error.message}`;
             }
         });
