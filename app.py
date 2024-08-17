@@ -1,14 +1,30 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 from pypmml import Model
+import os
 
 app = Flask(__name__)
 
-# Cargar el modelo PMML
-modelo_lempira = Model.load('/model_lempira2.pmml')
+# Get the directory of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Cargar el archivo Excel
-df = pd.read_excel('/BDBank.xlsx')
+# Construct the full path to the PMML file
+pmml_path = os.path.join(current_dir, 'model_lempira2.pmml')
+
+# Load the model with error handling
+try:
+    modelo_lempira = Model.load(pmml_path)
+except Exception as e:
+    print(f"Error loading PMML model: {str(e)}")
+    # You might want to exit the script here if the model can't be loaded
+    # import sys
+    # sys.exit(1)
+
+# Construct the full path to the Excel file
+excel_path = os.path.join(current_dir, 'BDBank.xlsx')
+
+# Load the Excel file
+df = pd.read_excel(excel_path)
 
 @app.route('/predict', methods=['POST'])
 def predict():
