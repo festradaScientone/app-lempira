@@ -27,6 +27,37 @@
             color: #fff;
             text-align: center;
             border-radius: 4px;
+            position: relative;
+        }
+        .header img {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            width: 50px;
+            height: auto;
+        }
+        .header-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .header-button {
+            display: flex;
+            align-items: center;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+        }
+        .header-button i {
+            margin-right: 8px;
+        }
+        .header-button:hover {
+            background: #218838;
         }
         form {
             display: flex;
@@ -80,7 +111,18 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Administración - Predicción de Clientes</h1>
+            <img src="https://scientone-media-files-chatbot-dev.s3.amazonaws.com/lempira.png" alt="Lempira Bank Logo">
+            <div class="header-buttons">
+                <a href="#" class="header-button">
+                    <i class="fas fa-chart-line"></i> Predicción de Clientes
+                </a>
+                <a href="#" class="header-button">
+                    <i class="fas fa-users"></i> Gestión de Clientes
+                </a>
+                <a href="#" class="header-button">
+                    <i class="fas fa-cogs"></i> Configuración
+                </a>
+            </div>
         </div>
         <form id="predict-form">
             <label for="id_cliente">ID Cliente:</label>
